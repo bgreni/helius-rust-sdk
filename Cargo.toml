@@ -1,0 +1,15 @@
+[package]
+name = "helius-sdk"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = {versions = "0.11.16", features = ["blocking", "json"] }
+serde_json = "1.0"
+serde = { verions ="1.0.160", features = ["derive"] }
+solana-client = "1.15.2"
+solana-sdk = "1.15.2"
+derive-alias = "0.1.0"
+
