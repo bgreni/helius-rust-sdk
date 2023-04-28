@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use reqwest;
 use crate::common::serializable;
 use crate::Helius;
+use serde_json::Number;
 
 pub trait BalancesApi {
     fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse>;
@@ -21,7 +22,7 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct BalancesResponse {
         tokens: Vec<TokenData>,
-        native_balance: u64
+        native_balance: Number
     }
 }
 
@@ -30,8 +31,8 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenData {
         mint: String,
-        amount: u64,
-        decimals: u32,
+        amount: Number,
+        decimals: Number,
         token_account: String
     }
 }

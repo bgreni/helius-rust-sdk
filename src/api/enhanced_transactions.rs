@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use reqwest;
-use serde_json::{Map, Value};
+use serde_json::{Number};
 use crate::common::serializable;
 use crate::{Helius, TokenStandard, TransactionContext, TransactionType};
 
@@ -32,10 +32,10 @@ serializable! {
         #[serde(rename="type")] // so we don't shadow a keyword
         transaction_type: TransactionType,
         source: String, // TODO: use an enum for this
-        fee: u64,
+        fee: Number,
         fee_payer: String,
         signature: String,
-        slot: u64,
+        slot: Number,
         native_transfers: Option<Vec<NativeTransfer>>,
         token_transfers: Option<Vec<TokenTransfer>>,
         account_data: Vec<AccountData>,
@@ -59,11 +59,11 @@ serializable! {
         #[serde(rename="type")]
         transaction_type: TransactionType,
         tree_id: String,
-        leaf_index: Option<u64>,
-        seq: Option<u64>,
+        leaf_index: Option<Number>,
+        seq: Option<Number>,
         asset_id: Option<String>,
-        instruction_index: Option<u64>,
-        inner_instruction_index: Option<u64>,
+        instruction_index: Option<Number>,
+        inner_instruction_index: Option<Number>,
         new_leaf_owner: Option<String>,
         old_leaf_owner: Option<String>
     }
@@ -109,9 +109,9 @@ serializable! {
     pub struct NFTEvent {
         seller: String,
         buyer: String,
-        timestamp: u64,
-        amount: u64,
-        fee: u64,
+        timestamp: Number,
+        amount: Number,
+        fee: Number,
         signature: String,
         source: String, // TODO: use an enum for this
         #[serde(rename="type")]
@@ -138,7 +138,7 @@ serializable! {
 serializable! {
     pub struct NativeBalanceChange {
         account: String,
-        amount: i64
+        amount: Number
     }
 }
 
@@ -146,7 +146,7 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct AccountData {
         account: String,
-        native_balance_change: i64,
+        native_balance_change: Number,
         token_balance_changes: Option<Vec<TokenBalanceChange>>
     }
 }
@@ -165,7 +165,7 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct RawTokenAmount {
         token_amount: String,
-        decimals: u64
+        decimals: Number
     }
 }
 
@@ -176,7 +176,7 @@ serializable! {
         user_accounts: TransferUserAccounts,
         from_token_account: Option<String>,
         to_token_account: Option<String>,
-        token_amount: u64,
+        token_amount: Number,
         token_standard: TokenStandard,
         mint: String
     }
@@ -195,7 +195,7 @@ serializable! {
     pub struct NativeTransfer {
         #[serde(flatten)]
         user_accounts: TransferUserAccounts,
-        amount: u64
+        amount: Number
     }
 }
 
