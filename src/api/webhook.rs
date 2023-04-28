@@ -2,8 +2,8 @@ use std::ops::Not;
 use serde::{Deserialize, Serialize};
 use reqwest;
 use reqwest::blocking::Response;
-use crate::{CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi};
-use crate::common::dataclass;
+use crate::{CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi, TransactionType};
+use crate::common::serializable;
 
 #[allow(dead_code)]
 const MAX_WEBHOOK_ADDRESSES: usize = 100_000;
@@ -39,7 +39,7 @@ impl WebhookApi for Helius {
     fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
         return self.http_client
             .post(self.get_url_v0("webhooks"))
-            .json::<CreateWebhookRequest>(&request)
+            .json::<CreateWebhookRequest>(request)
             .send()?.error_for_status()?
             .json::<Webhook>();
     }
@@ -104,7 +104,7 @@ impl WebhookApi for Helius {
     }
 }
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct Webhook {
         #[serde(rename="webhookID")]
@@ -115,19 +115,19 @@ dataclass! {
     }
 }
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct WebhookData {
         #[serde(rename="webhookURL")]
         pub webhook_url: String,
-        pub transaction_types: Vec<String>,
+        pub transaction_types: Vec<TransactionType>,
         pub account_addresses: Vec<String>,
         pub webhook_type: Option<WebhookType>,
         pub auth_header: Option<String>
     }
 }
 
-dataclass! {
+serializable! {
     #[derive(Eq, PartialEq)]
     pub enum WebhookType {
         #[serde(rename="enhanced")]
@@ -145,14 +145,14 @@ dataclass! {
     }
 }
 
-dataclass! {
+serializable! {
     pub struct CreateWebhookRequest {
         #[serde(flatten)]
         pub data: WebhookData,
     }
 }
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct CreateCollectionWebhookRequest {
         #[serde(flatten)]
@@ -161,7 +161,7 @@ dataclass! {
     }
 }
 
-dataclass! {
+serializable! {
     pub struct EditWebhookRequest {
         pub webhook_id: String,
         pub data: WebhookData,

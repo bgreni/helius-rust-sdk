@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use reqwest;
-use crate::common::dataclass;
+use crate::common::serializable;
 use crate::Helius;
 
 pub trait BalancesApi {
@@ -17,7 +17,7 @@ impl BalancesApi for Helius {
     }
 }
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct BalancesResponse {
         tokens: Vec<TokenData>,
@@ -26,7 +26,7 @@ dataclass! {
 }
 
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenData {
         mint: String,

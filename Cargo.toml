@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 reqwest = {versions = "0.11.16", features = ["blocking", "json"] }
+serde-enum-str = "0.3.2"
 serde_json = "1.0"
 serde = { verions ="1.0.160", features = ["derive"] }
 solana-client = "1.15.2"

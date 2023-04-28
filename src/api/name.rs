@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use reqwest;
-use crate::common::dataclass;
+use crate::common::serializable;
 use crate::Helius;
 
 pub trait NameApi {
@@ -17,7 +17,7 @@ impl NameApi for Helius {
     }
 }
 
-dataclass! {
+serializable! {
     #[serde(rename_all="camelCase")]
     pub struct Names {
         domain_names: Vec<String>
