@@ -94,7 +94,7 @@ impl WebhookApi for Helius {
             data: WebhookData {
                 webhook_url: data.webhook_url,
                 transaction_types: data.transaction_types,
-                account_addresses: mintlist.iter().map(|item| item.mint.clone()).collect(),
+                account_addresses: mintlist.iter().map(|item| return item.mint.clone()).collect(),
                 webhook_type: data.webhook_type,
                 auth_header: data.auth_header,
             },
