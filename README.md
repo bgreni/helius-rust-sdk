@@ -1,4 +1,4 @@
-# Helius SDK Written in Rust
+# Unofficial Helius SDK Written in Rust
 
 ## Todo
 - Usage documentation
