@@ -4,15 +4,16 @@ mod webhook;
 mod rpc_client;
 mod enhanced_transactions;
 mod name;
+mod token_metadata;
 
-use serde::de::DeserializeOwned;
 pub use {
     nft::*,
     balances::*,
     webhook::*,
     rpc_client::*,
     enhanced_transactions::*,
-    name::*
+    name::*,
+    token_metadata::*
 };
 
 use crate::{
@@ -21,9 +22,9 @@ use crate::{
 };
 use solana_client::rpc_client::RpcClient;
 
-const API_URL_V1: &'static str = "https://api.helius.xyz/v1";
-const API_URL_V0: &'static str = "https://api.helius.xyz/v0";
-const DEV_API_URL_V0: &'static str = "https://api-devnet.helius.xyz/v0";
+const API_URL_V1: &str = "https://api.helius.xyz/v1";
+const API_URL_V0: &str = "https://api.helius.xyz/v0";
+const DEV_API_URL_V0: &str = "https://api-devnet.helius.xyz/v0";
 
 pub struct Helius {
     api_key: String,
@@ -35,9 +36,9 @@ pub struct Helius {
 impl Helius {
     pub fn new(api_key: String, cluster: Cluster) -> Helius {
         let endpoint = rpc_url_from_cluster(api_key.clone(), cluster);
-        let connection = RpcClient::new(endpoint.clone());
+        let connection = RpcClient::new(endpoint);
         return Helius {
-            api_key: api_key.clone(),
+            api_key,
             cluster,
             http_client: reqwest::blocking::Client::new(),
             rpc: HeliusRpc::new(connection)

@@ -1,8 +1,7 @@
 use serde::{Deserialize, Serialize};
-use reqwest;
 use serde_json::{Number};
 use crate::common::serializable;
-use crate::{Helius, TokenStandard, TransactionContext, TransactionType};
+use crate::{Helius, TokenStandard, TransactionContext, TransactionType, Source, ProgramName};
 
 pub trait EnhancedTransactionsApi {
     fn parse_transaction(&self, transactions: &ParseTransactionsRequest) -> reqwest::Result<Vec<EnrichedTransaction>>;
@@ -31,7 +30,7 @@ serializable! {
         description: String,
         #[serde(rename="type")] // so we don't shadow a keyword
         transaction_type: TransactionType,
-        source: String, // TODO: use an enum for this
+        source: Source,
         fee: Number,
         fee_payer: String,
         signature: String,
@@ -97,9 +96,9 @@ serializable! {
 
 serializable! {
     pub struct ProgramInfo {
-        source: String, // TODO: use an enum for this
+        source: Source,
         account: String,
-        program_name: String,
+        program_name: ProgramName,
         instruction_name: String
     }
 }
@@ -113,7 +112,7 @@ serializable! {
         amount: Number,
         fee: Number,
         signature: String,
-        source: String, // TODO: use an enum for this
+        source: Source,
         #[serde(rename="type")]
         transaction_type: TransactionType,
         sale_type: TransactionContext,

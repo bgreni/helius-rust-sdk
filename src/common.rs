@@ -7,7 +7,8 @@ derive_alias! {
     serializable => #[derive(Serialize, Deserialize, Clone, Debug)]
     enum_serializable => #[derive(Deserialize_enum_str, Serialize_enum_str, Debug, PartialEq, Eq, Clone)]
 }
-pub(crate) use serializable;
+#[allow(clippy::single_component_path_imports)]
+pub(crate) use {serializable, enum_serializable};
 
 #[derive(Clone, Copy)]
 pub enum Cluster {
@@ -33,6 +34,22 @@ serializable! {
 }
 
 enum_serializable! {
+    #[serde(rename_all="camelCase")]
+    pub enum AccountWebhookEncoding {
+        JsonParsed
+    }
+}
+
+enum_serializable! {
+    #[serde(rename_all="lowercase")]
+    pub enum TxnStatus {
+        All,
+        Success,
+        Failed
+    }
+}
+
+enum_serializable! {
     #[serde(rename_all="SCREAMING_SNAKE_CASE")]
     pub enum TransactionContext {
         Auction,
@@ -54,6 +71,155 @@ enum_serializable! {
         FungibleAsset,
         NonFungibleEdition,
         UnknownStandard,
+        #[serde(other)]
+        Other(String)
+    }
+}
+
+enum_serializable! {
+    #[serde(rename_all="SCREAMING_SNAKE_CASE")]
+    pub enum ProgramName {
+        Unkown,
+        JupiterV1,
+        JupiterV2,
+        JupiterV3,
+        JupiterV4,
+        MercurialStableSwap,
+        SaberStableSwap,
+        SaberExchange,
+        SerumDexV1,
+        SerumDexV2,
+        SerumDexV3,
+        SerumSwap,
+        StepFinance,
+        Cropper,
+        RaydiumLiquidityPoolV2,
+        RaydiumLiquidityPoolV3,
+        RaydiumLiquidityPoolV4,
+        AldrinAmmV1,
+        AldrinAmmV2,
+        Crema,
+        Lifinity,
+        LifinityV2,
+        Cykura,
+        OrcaTokenSwapV1,
+        OrcaTokenSwapV2,
+        OrcaWhirlpools,
+        Marinade,
+        Stepn,
+        SenchaExchange,
+        SarosAmm,
+        FoxyStake,
+        FoxySwap,
+        FoxyRaffle,
+        FoxyTokenMarket,
+        FoxyMissions,
+        FoxyMarmalade,
+        FoxyCoinflip,
+        FoxyAuction,
+        Citrus,
+        HadeSwap,
+        Zeta,
+        CardinalRent,
+        CardinalStaking,
+        SharkyFi,
+        OpenCreatorProtocol,
+        Bubblegum,
+        CoralCube,
+        #[serde(other)]
+        Other(String)
+    }
+}
+
+enum_serializable! {
+    #[allow(non_camel_case_types)]
+    #[serde(rename_all="SCREAMING_SNAKE_CASE")]
+    pub enum Source {
+        FormFunction,
+        ExchangeArt,
+        CandyMachineV3,
+        CandyMachineV2,
+        CandyMachineV1,
+        Unknown,
+        Solanart,
+        Solsea,
+        MagicEden,
+        Holaplex,
+        Metaplex,
+        Opensea,
+        SolanaProgramLibrary,
+        Anchor,
+        Phantom,
+        SystemProgram,
+        StakeProgram,
+        Coinbase,
+        CoralCube,
+        Hedge,
+        LaunchMyNft,
+        GemBank,
+        GemFarm,
+        Degods,
+        Bsl,
+        Yawww,
+        Atadia,
+        DigitalEyes,
+        Hyperspace,
+        Tensor,
+        Bifrost,
+        Jupiter,
+        Mecurial,
+        Saber,
+        Serum,
+        StepFinance,
+        Cropper,
+        Raydium,
+        Aldrin,
+        Crema,
+        Lifinity,
+        Cykura,
+        Orca,
+        Marinade,
+        Stepn,
+        Sencha,
+        Saros,
+        EnglishAuction,
+        Foxy,
+        Hadeswap,
+        FoxyStaking,
+        FoxyRaffle,
+        FoxyTokenMarket,
+        FoxyMissions,
+        FoxyMarmalade,
+        FoxyCoinflip,
+        FoxyAuction,
+        Citrus,
+        Zeta,
+        Elixir,
+        ElixirLaunchpad,
+        CardinalRent,
+        CardinalStaking,
+        BpfLoader,
+        BpfUpgradeableLoader,
+        Squads,
+        SharkyFi,
+        OpenCreatorProtocol,
+        Bubblegum,
+        // Mints
+        W_SOL,
+        DUST,
+        SOLI,
+        USDC,
+        FLWR,
+        HDG,
+        MEAN,
+        UXD,
+        SHDW,
+        POLIS,
+        ATLAS,
+        USH,
+        TRTLS,
+        RUNNER,
+        INVICTUS,
         #[serde(other)]
         Other(String)
     }

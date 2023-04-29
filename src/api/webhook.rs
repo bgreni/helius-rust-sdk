@@ -1,8 +1,7 @@
 use std::ops::Not;
 use serde::{Deserialize, Serialize};
-use reqwest;
 use reqwest::blocking::Response;
-use crate::{CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi, TransactionType};
+use crate::{AccountWebhookEncoding, CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi, TransactionType, TxnStatus};
 use crate::common::serializable;
 
 #[allow(dead_code)]
@@ -82,7 +81,7 @@ impl WebhookApi for Helius {
             mints = self.get_mintlist(&MintlistRequest {
                 query: request.collection_query.clone(),
                 options: Some(HeliusOptions {
-                    limit: mint_request.options.clone().unwrap().limit.clone(),
+                    limit: mint_request.options.clone().unwrap().limit,
                     pagination_token: Some(mints.pagination_token)
                 })
             })?;
@@ -97,6 +96,8 @@ impl WebhookApi for Helius {
                 account_addresses: mintlist.iter().map(|item| return item.mint.clone()).collect(),
                 webhook_type: data.webhook_type,
                 auth_header: data.auth_header,
+                txn_status: data.txn_status,
+                encoding: data.encoding
             },
         };
 
@@ -123,7 +124,9 @@ serializable! {
         pub transaction_types: Vec<TransactionType>,
         pub account_addresses: Vec<String>,
         pub webhook_type: Option<WebhookType>,
-        pub auth_header: Option<String>
+        pub auth_header: Option<String>,
+        pub txn_status: Option<TxnStatus>,
+        pub encoding: Option<AccountWebhookEncoding>
     }
 }
 

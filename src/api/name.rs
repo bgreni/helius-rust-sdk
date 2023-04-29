@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use reqwest;
 use crate::common::serializable;
 use crate::Helius;
 
