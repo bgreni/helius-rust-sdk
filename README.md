@@ -62,6 +62,8 @@ let res = client.create_collection_webhook(&CreateCollectionWebhookRequest {
         account_addresses: vec![],
         webhook_type: Some(WebhookType::Discord),
         auth_header: None,
+        txn_status: None,
+        encoding: None
     },
     collection_query: CollectionIdentifier::FirstVerifiedCreators(vec!["GVkb5GuwGKydA4xXLT9PNpx63h7bhFNrDLQSxi6j5NuF".to_string()]),
 });
