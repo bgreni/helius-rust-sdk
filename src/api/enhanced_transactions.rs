@@ -1,19 +1,25 @@
-use serde::{Deserialize, Serialize};
-use serde_json::{Number};
 use crate::common::serializable;
-use crate::{Helius, TokenStandard, TransactionContext, TransactionType, Source, ProgramName};
+use crate::{Helius, ProgramName, Source, TokenStandard, TransactionContext, TransactionType};
+use serde::{Deserialize, Serialize};
+use serde_json::Number;
 
 pub trait EnhancedTransactionsApi {
-    fn parse_transaction(&self, transactions: &ParseTransactionsRequest) -> reqwest::Result<Vec<EnrichedTransaction>>;
+    fn parse_transaction(
+        &self,
+        transactions: &ParseTransactionsRequest,
+    ) -> reqwest::Result<Vec<EnrichedTransaction>>;
 }
 
-
 impl EnhancedTransactionsApi for Helius {
-    fn parse_transaction(&self, transactions: &ParseTransactionsRequest) -> reqwest::Result<Vec<EnrichedTransaction>> {
+    fn parse_transaction(
+        &self,
+        transactions: &ParseTransactionsRequest,
+    ) -> reqwest::Result<Vec<EnrichedTransaction>> {
         return self.http_client
             .post(self.get_url_v0("transactions"))
             .json::<ParseTransactionsRequest>(transactions)
-            .send()?.error_for_status()?
+            .send()?
+            .error_for_status()?
             .json();
     }
 }

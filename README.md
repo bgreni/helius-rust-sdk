@@ -44,8 +44,8 @@ let hook = client.get_webhook_by_id("insert webhook id here"));
 let mut hook = client.get_webhook_by_id(hook.webhook_id.as_str()).unwrap();
 hook.webhook_data.webhook_type = WebhookType::Discord.into();
 let ehook = client.edit_webhook(EditWebhookRequest{
-    webhook_id: ghook.webhook_id,
-    data: ghook.webhook_data,
+    webhook_id: hook.webhook_id,
+    data: hook.webhook_data,
 });
 ```
 ### Delete Webhook
@@ -96,6 +96,4 @@ let key = Pubkey::new_unique();
 client.rpc.airdrop(&key, 10 * LAMPORTS_PER_SOL).expect();
 ```
 ## Todo
-- Usage documentation
-- Beta NFT endpoints?
-- Add guards to endpoints that aren't available for devnet
+- Beta/Alpha endpoints?

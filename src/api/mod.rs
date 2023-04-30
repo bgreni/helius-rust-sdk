@@ -1,25 +1,17 @@
-mod nft;
 mod balances;
-mod webhook;
-mod rpc_client;
 mod enhanced_transactions;
 mod name;
+mod nft;
+mod rpc_client;
 mod token_metadata;
+mod webhook;
 
 pub use {
-    nft::*,
-    balances::*,
+    balances::*, enhanced_transactions::*, name::*, nft::*, rpc_client::*, token_metadata::*,
     webhook::*,
-    rpc_client::*,
-    enhanced_transactions::*,
-    name::*,
-    token_metadata::*
 };
 
-use crate::{
-    common::{Cluster},
-    util::rpc_url_from_cluster
-};
+use crate::{common::Cluster, util::rpc_url_from_cluster};
 use solana_client::rpc_client::RpcClient;
 
 const API_URL_V1: &str = "https://api.helius.xyz/v1";
@@ -30,7 +22,7 @@ pub struct Helius {
     api_key: String,
     cluster: Cluster,
     http_client: reqwest::blocking::Client,
-    pub rpc: HeliusRpc
+    pub rpc: HeliusRpc,
 }
 
 impl Helius {
@@ -41,8 +33,8 @@ impl Helius {
             api_key,
             cluster,
             http_client: reqwest::blocking::Client::new(),
-            rpc: HeliusRpc::new(connection)
-        }
+            rpc: HeliusRpc::new(connection),
+        };
     }
 
     pub fn get_url_v1(&self, method: &str) -> String {
@@ -52,7 +44,7 @@ impl Helius {
     pub fn get_url_v0(&self, method: &str) -> String {
         let url = match self.cluster {
             Cluster::MainnetBeta => API_URL_V0,
-            Cluster::Devnet => DEV_API_URL_V0
+            Cluster::Devnet => DEV_API_URL_V0,
         };
         return self.make_url(url, method);
     }
@@ -60,5 +52,4 @@ impl Helius {
     fn make_url(&self, base: &str, method: &str) -> String {
         return format!("{base}/{method}?api-key={}", self.api_key);
     }
-
 }

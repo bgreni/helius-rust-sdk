@@ -1,6 +1,6 @@
+use crate::common::serializable;
 use crate::{CollectionIdentifier, Helius, HeliusOptions};
 use serde::{Deserialize, Serialize};
-use crate::common::serializable;
 
 pub trait NftApi {
     fn get_mintlist(&self, request: &MintlistRequest) -> reqwest::Result<MintlistResponse>;
@@ -8,10 +8,12 @@ pub trait NftApi {
 
 impl NftApi for Helius {
     fn get_mintlist(&self, request: &MintlistRequest) -> reqwest::Result<MintlistResponse> {
-        return self.http_client
+        return self
+            .http_client
             .post(self.get_url_v1("mintlist"))
             .json::<MintlistRequest>(request)
-            .send()?.error_for_status()?
+            .send()?
+            .error_for_status()?
             .json::<MintlistResponse>();
     }
 }

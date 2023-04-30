@@ -12,7 +12,8 @@ impl BalancesApi for Helius {
         let method = format!("addresses/{address}/balances");
         return self.http_client
             .get(self.get_url_v0(method.as_str()))
-            .send()?.error_for_status()?
+            .send()?
+            .error_for_status()?
             .json::<BalancesResponse>();
     }
 }

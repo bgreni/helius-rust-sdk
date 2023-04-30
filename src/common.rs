@@ -1,19 +1,19 @@
-use std::ops::BitOr;
+use derive_alias::derive_alias;
 use serde::{Deserialize, Serialize};
 use serde_enum_str::{Deserialize_enum_str, Serialize_enum_str};
-use derive_alias::derive_alias;
+use std::ops::BitOr;
 
 derive_alias! {
     serializable => #[derive(Serialize, Deserialize, Clone, Debug)]
     enum_serializable => #[derive(Deserialize_enum_str, Serialize_enum_str, Debug, PartialEq, Eq, Clone)]
 }
 #[allow(clippy::single_component_path_imports)]
-pub(crate) use {serializable, enum_serializable};
+pub(crate) use {enum_serializable, serializable};
 
 #[derive(Clone, Copy)]
 pub enum Cluster {
     MainnetBeta,
-    Devnet
+    Devnet,
 }
 
 serializable! {
