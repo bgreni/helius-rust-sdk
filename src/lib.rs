@@ -28,7 +28,8 @@ mod tests {
         address: String,
         webhook_url: String,
         txn: String,
-        collection: String
+        collection: String,
+        token_mint: String
     }
 
     impl Config {
@@ -38,7 +39,8 @@ mod tests {
                 address: std::env::var("ADDRESS").unwrap(),
                 webhook_url: std::env::var("WEBHOOK_URL").unwrap(),
                 txn: std::env::var("TXN").unwrap(),
-                collection: std::env::var("COL").unwrap()
+                collection: std::env::var("COL").unwrap(),
+                token_mint: std::env::var("TMINT").unwrap()
             };
         }
 
@@ -106,5 +108,16 @@ mod tests {
             query: CollectionIdentifier::FirstVerifiedCreators(vec![config.collection]),
             options: Some(HeliusOptions{limit: Some(10), pagination_token: None}),
         }).is_ok());
+    }
+
+    #[test]
+    #[ignore]
+    fn test_get_metadata() {
+        let config = Config::new();
+        config.client.get_token_metadata(&TokenMetadataRequest{
+            mint_accounts: vec![config.token_mint],
+            include_off_chain: true,
+            disable_cache: false
+        }).unwrap();
     }
 }

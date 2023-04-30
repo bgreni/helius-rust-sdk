@@ -6,14 +6,14 @@ use serde_json::Number;
 pub trait EnhancedTransactionsApi {
     fn parse_transaction(
         &self,
-        transactions: &ParseTransactionsRequest,
+        transactions: &ParseTransactionsRequest
     ) -> reqwest::Result<Vec<EnrichedTransaction>>;
 }
 
 impl EnhancedTransactionsApi for Helius {
     fn parse_transaction(
         &self,
-        transactions: &ParseTransactionsRequest,
+        transactions: &ParseTransactionsRequest
     ) -> reqwest::Result<Vec<EnrichedTransaction>> {
         return self.http_client
             .post(self.get_url_v0("transactions"))

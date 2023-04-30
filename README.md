@@ -95,5 +95,12 @@ client.rpc.get_tps();
 let key = Pubkey::new_unique();
 client.rpc.airdrop(&key, 10 * LAMPORTS_PER_SOL).expect();
 ```
+### Access Solana Connection
+Users can also access the underlying solana_sdk rpc client to make 
+other standard rpc calls.
+```rust
+let conn = client.rpc.connection();
+let inflation = conn.get_inflation_rate();
+```
 ## Todo
 - Beta/Alpha endpoints?
