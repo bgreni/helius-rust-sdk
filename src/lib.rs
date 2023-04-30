@@ -4,6 +4,7 @@
 mod common;
 mod util;
 mod api;
+mod request_handler;
 
 pub use {
     api::*,

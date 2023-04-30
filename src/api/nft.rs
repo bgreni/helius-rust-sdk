@@ -8,12 +8,7 @@ pub trait NftApi {
 
 impl NftApi for Helius {
     fn get_mintlist(&self, request: &MintlistRequest) -> reqwest::Result<MintlistResponse> {
-        return self.http_client
-            .post(self.get_url_v1("mintlist"))
-            .json(request)
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.post(self.get_url_v1("mintlist"), request);
     }
 }
 

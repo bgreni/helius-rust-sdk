@@ -10,12 +10,7 @@ pub trait TokenMetadataApi {
 
 impl TokenMetadataApi for Helius {
     fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<Map<String, Value>>> {
-        return self.http_client
-            .post(self.get_url_v0("token-metadata"))
-            .json(request)
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.post(self.get_url_v0("token-metadata"), request);
     }
 }
 

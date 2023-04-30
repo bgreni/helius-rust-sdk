@@ -10,11 +10,7 @@ pub trait BalancesApi {
 impl BalancesApi for Helius {
     fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse> {
         let method = format!("addresses/{address}/balances");
-        return self.http_client
-            .get(self.get_url_v0(method.as_str()))
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.get(self.get_url_v0(method.as_str()));
     }
 }
 

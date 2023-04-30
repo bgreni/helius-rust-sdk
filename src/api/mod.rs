@@ -13,6 +13,7 @@ pub use {
 
 use crate::{common::Cluster, util::rpc_url_from_cluster};
 use solana_client::rpc_client::RpcClient;
+use crate::request_handler::RequestHandler;
 
 const API_URL_V1: &str = "https://api.helius.xyz/v1";
 const API_URL_V0: &str = "https://api.helius.xyz/v0";
@@ -21,8 +22,8 @@ const DEV_API_URL_V0: &str = "https://api-devnet.helius.xyz/v0";
 pub struct Helius {
     api_key: String,
     cluster: Cluster,
-    http_client: reqwest::blocking::Client,
     pub rpc: HeliusRpc,
+    handler: RequestHandler
 }
 
 impl Helius {
@@ -32,8 +33,8 @@ impl Helius {
         return Helius {
             api_key,
             cluster,
-            http_client: reqwest::blocking::Client::new(),
             rpc: HeliusRpc::new(connection),
+            handler: RequestHandler::new()
         };
     }
 

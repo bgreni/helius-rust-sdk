@@ -23,44 +23,26 @@ pub trait WebhookApi {
 
 impl WebhookApi for Helius {
     fn get_all_webhooks(&self) -> reqwest::Result<Vec<Webhook>> {
-        return self.http_client
-            .get(self.get_url_v0(WEBHOOK_BASE))
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.get(self.get_url_v0(WEBHOOK_BASE));
     }
 
     fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook> {
-        return self.http_client
-            .get(self.get_url_v0(format!("{WEBHOOK_BASE}/{webhook_id}").as_str()))
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.get(self.get_url_v0(format!("{WEBHOOK_BASE}/{webhook_id}").as_str()));
     }
 
     fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
-        return self.http_client
-            .post(self.get_url_v0(WEBHOOK_BASE))
-            .json(request)
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.post(self.get_url_v0(WEBHOOK_BASE), request);
     }
 
     fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook> {
-        return self.http_client
-            .put(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", request.webhook_id).as_str()))
-            .json(&request.data)
-            .send()?
-            .error_for_status()?
-            .json();
+        return self.handler.put(
+            self.get_url_v0(format!("{WEBHOOK_BASE}/{}", request.webhook_id).as_str()),
+            &request.data
+        );
     }
 
     fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response> {
-        return self.http_client
-            .delete(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", webhook_id).as_str()))
-            .send()?
-            .error_for_status();
+        return self.handler.delete(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", webhook_id).as_str()));
     }
 
     fn append_addresses_to_webhook(&self, webhook_id: &str, new_addresses: Vec<String>) -> reqwest::Result<Webhook> {
