@@ -13,7 +13,7 @@ impl NameApi for Helius {
             .get(self.get_url_v0(method.as_str()))
             .send()?
             .error_for_status()?
-            .json::<Names>();
+            .json();
     }
 }
 

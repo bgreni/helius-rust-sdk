@@ -11,10 +11,10 @@ impl NftApi for Helius {
         return self
             .http_client
             .post(self.get_url_v1("mintlist"))
-            .json::<MintlistRequest>(request)
+            .json(request)
             .send()?
             .error_for_status()?
-            .json::<MintlistResponse>();
+            .json();
     }
 }
 

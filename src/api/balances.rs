@@ -14,7 +14,7 @@ impl BalancesApi for Helius {
             .get(self.get_url_v0(method.as_str()))
             .send()?
             .error_for_status()?
-            .json::<BalancesResponse>();
+            .json();
     }
 }
 

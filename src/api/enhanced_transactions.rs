@@ -17,7 +17,7 @@ impl EnhancedTransactionsApi for Helius {
     ) -> reqwest::Result<Vec<EnrichedTransaction>> {
         return self.http_client
             .post(self.get_url_v0("transactions"))
-            .json::<ParseTransactionsRequest>(transactions)
+            .json(transactions)
             .send()?
             .error_for_status()?
             .json();

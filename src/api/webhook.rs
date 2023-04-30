@@ -26,7 +26,7 @@ impl WebhookApi for Helius {
             .get(self.get_url_v0("webhooks"))
             .send()?
             .error_for_status()?
-            .json::<Vec<Webhook>>();
+            .json();
     }
 
     fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook> {
@@ -34,25 +34,25 @@ impl WebhookApi for Helius {
             .get(self.get_url_v0(format!("webhooks/{webhook_id}").as_str()))
             .send()?
             .error_for_status()?
-            .json::<Webhook>();
+            .json();
     }
 
     fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
         return self.http_client
             .post(self.get_url_v0("webhooks"))
-            .json::<CreateWebhookRequest>(request)
+            .json(request)
             .send()?
             .error_for_status()?
-            .json::<Webhook>();
+            .json();
     }
 
     fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook> {
         return self.http_client
             .put(self.get_url_v0(format!("webhooks/{}", request.webhook_id).as_str()))
-            .json::<WebhookData>(&request.data)
+            .json(&request.data)
             .send()?
             .error_for_status()?
-            .json::<Webhook>();
+            .json();
     }
 
     fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response> {
