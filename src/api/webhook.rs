@@ -6,6 +6,7 @@ use crate::common::serializable;
 
 #[allow(dead_code)]
 const MAX_WEBHOOK_ADDRESSES: usize = 100_000;
+const WEBHOOK_BASE: &str = "webhooks";
 
 pub trait WebhookApi {
     // standard methods
@@ -23,7 +24,7 @@ pub trait WebhookApi {
 impl WebhookApi for Helius {
     fn get_all_webhooks(&self) -> reqwest::Result<Vec<Webhook>> {
         return self.http_client
-            .get(self.get_url_v0("webhooks"))
+            .get(self.get_url_v0(WEBHOOK_BASE))
             .send()?
             .error_for_status()?
             .json();
@@ -31,7 +32,7 @@ impl WebhookApi for Helius {
 
     fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook> {
         return self.http_client
-            .get(self.get_url_v0(format!("webhooks/{webhook_id}").as_str()))
+            .get(self.get_url_v0(format!("{WEBHOOK_BASE}/{webhook_id}").as_str()))
             .send()?
             .error_for_status()?
             .json();
@@ -39,7 +40,7 @@ impl WebhookApi for Helius {
 
     fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
         return self.http_client
-            .post(self.get_url_v0("webhooks"))
+            .post(self.get_url_v0(WEBHOOK_BASE))
             .json(request)
             .send()?
             .error_for_status()?
@@ -48,7 +49,7 @@ impl WebhookApi for Helius {
 
     fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook> {
         return self.http_client
-            .put(self.get_url_v0(format!("webhooks/{}", request.webhook_id).as_str()))
+            .put(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", request.webhook_id).as_str()))
             .json(&request.data)
             .send()?
             .error_for_status()?
@@ -57,7 +58,7 @@ impl WebhookApi for Helius {
 
     fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response> {
         return self.http_client
-            .delete(self.get_url_v0(format!("webhooks/{}", webhook_id).as_str()))
+            .delete(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", webhook_id).as_str()))
             .send()?
             .error_for_status();
     }

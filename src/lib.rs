@@ -11,8 +11,6 @@ pub use {
     util::*,
 };
 
-
-
 /// These shouldn't be run in normal circumstances
 /// they exist exclusively so I don't have to write
 /// this shit out every time I wanna test against the live service
