@@ -1,12 +1,24 @@
 use derive_alias::derive_alias;
 use serde::{Deserialize, Serialize};
-use serde_enum_str::{Deserialize_enum_str, Serialize_enum_str};
+
 use std::ops::BitOr;
+
+pub(crate) use serde_enum_str::{Deserialize_enum_str, Serialize_enum_str};
+
 
 derive_alias! {
     serializable => #[derive(Serialize, Deserialize, Clone, Debug)]
     enum_serializable => #[derive(Deserialize_enum_str, Serialize_enum_str, Debug, PartialEq, Eq, Clone)]
 }
+
+macro_rules! serializable_camel_case {
+    ($i:item) => {
+        #[derive(Serialize, Deserialize, Clone, Debug)]
+        #[serde(rename_all="camelCase")]
+        $i
+    }
+}
+
 #[allow(clippy::single_component_path_imports)]
 pub(crate) use {enum_serializable, serializable};
 

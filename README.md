@@ -68,7 +68,8 @@ let res = client.create_collection_webhook(&CreateCollectionWebhookRequest {
     collection_query: CollectionIdentifier::FirstVerifiedCreators(vec!["GVkb5GuwGKydA4xXLT9PNpx63h7bhFNrDLQSxi6j5NuF".to_string()]),
 });
 ```
-## Enhanced Transactions
+## Enhanced Transactions API
+### Parse transactions
 ```rust
 let res = client.parse_transaction(
     &ParseTransactionsRequest{
@@ -83,6 +84,15 @@ let res = client.get_mintlist(MintlistRequest {
     query: CollectionIdentifier::FirstVerifiedCreators(vec!["GVkb5GuwGKydA4xXLT9PNpx63h7bhFNrDLQSxi6j5NuF".into()]),
     options: HeliusOptions {limit: 1000.into(), pagination_token: None}.into()
 });
+```
+## Token Metadata API
+### Get Token Metadata
+```rust
+let res = client.get_token_metadata(&TokenMetadataRequest{
+        mint_accounts: vec!["insert token mint address"],
+        include_off_chain: true,
+        disable_cache: false
+    });
 ```
 ## RPC Abstractions
 Helper methods for common RPC operations

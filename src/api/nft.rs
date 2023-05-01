@@ -1,4 +1,4 @@
-use crate::common::serializable;
+use crate::common::*;
 use crate::{CollectionIdentifier, Helius, HeliusOptions};
 use serde::{Deserialize, Serialize};
 

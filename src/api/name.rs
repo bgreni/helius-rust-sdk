@@ -1,4 +1,4 @@
-use crate::common::serializable;
+use crate::common::*;
 use crate::Helius;
 use serde::{Deserialize, Serialize};
 
@@ -16,6 +16,6 @@ impl NameApi for Helius {
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct Names {
-        domain_names: Vec<String>
+        pub domain_names: Vec<String>
     }
 }

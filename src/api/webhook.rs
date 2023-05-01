@@ -2,7 +2,7 @@ use std::ops::Not;
 use serde::{Deserialize, Serialize};
 use reqwest::blocking::Response;
 use crate::{AccountWebhookEncoding, CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi, TransactionType, TxnStatus};
-use crate::common::serializable;
+use crate::common::*;
 
 #[allow(dead_code)]
 const MAX_WEBHOOK_ADDRESSES: usize = 100_000;
@@ -118,8 +118,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[derive(Eq, PartialEq)]
+enum_serializable! {
     pub enum WebhookType {
         #[serde(rename="enhanced")]
         Enhanced,

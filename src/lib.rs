@@ -93,10 +93,10 @@ mod tests {
     #[ignore]
     fn test_enhanced_txn() {
         let config = Config::new();
-        assert!(config.client.parse_transaction(
+        let res = config.client.parse_transaction(
             &ParseTransactionsRequest {
                 transactions: vec![config.txn],
-            }).is_ok());
+            }).unwrap();
     }
 
     #[test]

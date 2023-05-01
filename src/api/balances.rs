@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::common::serializable;
+use crate::common::*;
 use crate::Helius;
 use serde_json::Number;
 
@@ -17,8 +17,8 @@ impl BalancesApi for Helius {
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct BalancesResponse {
-        tokens: Vec<TokenData>,
-        native_balance: Number
+        pub tokens: Vec<TokenData>,
+        pub native_balance: Number
     }
 }
 
@@ -26,9 +26,9 @@ serializable! {
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenData {
-        mint: String,
-        amount: Number,
-        decimals: Number,
-        token_account: String
+        pub mint: String,
+        pub amount: Number,
+        pub decimals: Number,
+        pub token_account: String
     }
 }

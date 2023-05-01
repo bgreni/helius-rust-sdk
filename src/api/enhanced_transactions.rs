@@ -1,4 +1,4 @@
-use crate::common::serializable;
+use crate::common::*;
 use crate::{Helius, ProgramName, Source, TokenStandard, TransactionContext, TransactionType};
 use serde::{Deserialize, Serialize};
 use serde_json::Number;
@@ -20,36 +20,36 @@ impl EnhancedTransactionsApi for Helius {
 }
 
 serializable! {
+    // #[serde(rename_all="camelCase")]
+    pub struct EnrichedTransaction {
+        pub description: String,
+        #[serde(rename="type")] // so we don't shadow a keyword
+        pub transaction_type: TransactionType,
+        pub source: Source,
+        pub fee: Number,
+        pub fee_payer: String,
+        pub signature: String,
+        pub slot: Number,
+        pub native_transfers: Option<Vec<NativeTransfer>>,
+        pub token_transfers: Option<Vec<TokenTransfer>>,
+        pub account_data: Vec<AccountData>,
+        pub transaction_error: Option<TransactionError>,
+        pub instructions: Vec<Instruction>,
+        pub events: TransactionEvent
+    }
+}
+
+serializable! {
     pub struct ParseTransactionsRequest {
         pub transactions: Vec<String>
     }
 }
 
 serializable! {
-    #[serde(rename_all="camelCase")]
-    pub struct EnrichedTransaction {
-        description: String,
-        #[serde(rename="type")] // so we don't shadow a keyword
-        transaction_type: TransactionType,
-        source: Source,
-        fee: Number,
-        fee_payer: String,
-        signature: String,
-        slot: Number,
-        native_transfers: Option<Vec<NativeTransfer>>,
-        token_transfers: Option<Vec<TokenTransfer>>,
-        account_data: Vec<AccountData>,
-        transaction_error: Option<TransactionError>,
-        instructions: Vec<Instruction>,
-        events: TransactionEvent
-    }
-}
-
-serializable! {
     pub struct TransactionEvent {
-        nft: Option<NFTEvent>,
-        swap: Option<SwapEvent>,
-        compressed: Option<CompressedNftEvent>
+        pub nft: Option<NFTEvent>,
+        pub swap: Option<SwapEvent>,
+        pub compressed: Option<CompressedNftEvent>
     }
 }
 
@@ -57,115 +57,115 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct CompressedNftEvent {
         #[serde(rename="type")]
-        transaction_type: TransactionType,
-        tree_id: String,
-        leaf_index: Option<Number>,
-        seq: Option<Number>,
-        asset_id: Option<String>,
-        instruction_index: Option<Number>,
-        inner_instruction_index: Option<Number>,
-        new_leaf_owner: Option<String>,
-        old_leaf_owner: Option<String>
+        pub transaction_type: TransactionType,
+        pub tree_id: String,
+        pub leaf_index: Option<Number>,
+        pub seq: Option<Number>,
+        pub asset_id: Option<String>,
+        pub instruction_index: Option<Number>,
+        pub inner_instruction_index: Option<Number>,
+        pub new_leaf_owner: Option<String>,
+        pub old_leaf_owner: Option<String>
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct SwapEvent {
-        native_input: NativeBalanceChange,
-        native_output: NativeBalanceChange,
-        token_inputs: Vec<TokenBalanceChange>,
-        token_outputs: Vec<TokenBalanceChange>,
-        token_fees: Vec<TokenBalanceChange>,
-        native_fees: Vec<NativeBalanceChange>,
-        inner_swaps: Vec<TokenSwap>
+        pub native_input: NativeBalanceChange,
+        pub native_output: NativeBalanceChange,
+        pub token_inputs: Vec<TokenBalanceChange>,
+        pub token_outputs: Vec<TokenBalanceChange>,
+        pub token_fees: Vec<TokenBalanceChange>,
+        pub native_fees: Vec<NativeBalanceChange>,
+        pub inner_swaps: Vec<TokenSwap>
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenSwap {
-        native_input: Option<NativeTransfer>,
-        native_output: Option<NativeTransfer>,
-        token_inputs: Vec<TokenTransfer>,
-        token_outputs: Vec<TokenTransfer>,
-        token_fees: Vec<TokenTransfer>,
-        native_fees: Vec<NativeTransfer>,
-        program_info: ProgramInfo
+        pub native_input: Option<NativeTransfer>,
+        pub native_output: Option<NativeTransfer>,
+        pub token_inputs: Vec<TokenTransfer>,
+        pub token_outputs: Vec<TokenTransfer>,
+        pub token_fees: Vec<TokenTransfer>,
+        pub native_fees: Vec<NativeTransfer>,
+        pub program_info: ProgramInfo
     }
 }
 
 serializable! {
     pub struct ProgramInfo {
-        source: Source,
-        account: String,
-        program_name: ProgramName,
-        instruction_name: String
+        pub source: Source,
+        pub account: String,
+        pub program_name: ProgramName,
+        pub instruction_name: String
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct NFTEvent {
-        seller: String,
-        buyer: String,
-        timestamp: Number,
-        amount: Number,
-        fee: Number,
-        signature: String,
-        source: Source,
+        pub seller: String,
+        pub buyer: String,
+        pub timestamp: Number,
+        pub amount: Number,
+        pub fee: Number,
+        pub signature: String,
+        pub source: Source,
         #[serde(rename="type")]
-        transaction_type: TransactionType,
-        sale_type: TransactionContext,
-        nfts: Vec<Token>
+        pub transaction_type: TransactionType,
+        pub sale_type: TransactionContext,
+        pub nfts: Vec<Token>
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct Token {
-        mint: String,
-        token_standard: TokenStandard
+        pub mint: String,
+        pub token_standard: TokenStandard
     }
 }
 
 serializable! {
     pub struct TransactionError {
-        error: String
+        pub error: String
     }
 }
 
 serializable! {
     pub struct NativeBalanceChange {
-        account: String,
-        amount: Number
+        pub account: String,
+        pub amount: Number
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct AccountData {
-        account: String,
-        native_balance_change: Number,
-        token_balance_changes: Option<Vec<TokenBalanceChange>>
+        pub account: String,
+        pub native_balance_change: Number,
+        pub token_balance_changes: Option<Vec<TokenBalanceChange>>
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenBalanceChange {
-        user_account: String,
-        token_account: String,
-        raw_token_amount: RawTokenAmount,
-        mint: String
+        pub user_account: String,
+        pub token_account: String,
+        pub raw_token_amount: RawTokenAmount,
+        pub mint: String
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct RawTokenAmount {
-        token_amount: String,
-        decimals: Number
+        pub token_amount: String,
+        pub decimals: Number
     }
 }
 
@@ -173,20 +173,20 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TokenTransfer {
         #[serde(flatten)]
-        user_accounts: TransferUserAccounts,
-        from_token_account: Option<String>,
-        to_token_account: Option<String>,
-        token_amount: Number,
-        token_standard: TokenStandard,
-        mint: String
+        pub user_accounts: TransferUserAccounts,
+        pub from_token_account: Option<String>,
+        pub to_token_account: Option<String>,
+        pub token_amount: Number,
+        pub token_standard: TokenStandard,
+        pub mint: String
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct TransferUserAccounts {
-        from_user_account: Option<String>,
-        to_user_account: Option<String>,
+        pub from_user_account: Option<String>,
+        pub to_user_account: Option<String>,
     }
 }
 
@@ -194,26 +194,26 @@ serializable! {
     #[serde(rename_all="camelCase")]
     pub struct NativeTransfer {
         #[serde(flatten)]
-        user_accounts: TransferUserAccounts,
-        amount: Number
+        pub user_accounts: TransferUserAccounts,
+        pub amount: Number
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct Instruction {
-        accounts: Vec<String>,
-        data: String,
-        program_id: String,
-        inner_instructions: Vec<InnerInstruction>
+        pub accounts: Vec<String>,
+        pub data: String,
+        pub program_id: String,
+        pub inner_instructions: Vec<InnerInstruction>
     }
 }
 
 serializable! {
     #[serde(rename_all="camelCase")]
     pub struct InnerInstruction {
-        accounts: Vec<String>,
-        data: String,
-        program_id: String
+        pub accounts: Vec<String>,
+        pub data: String,
+        pub program_id: String
     }
 }
