@@ -44,7 +44,7 @@ let hook = client.create_webhook(&CreateWebhookRequest {
     });
 ```
 ### Get All Webhooks
-Retreive all wabhook for the current user account
+Retrieve all webhook for the current user account
 ```rust
 let hooks = client.get_all_webhooks();
 ```
