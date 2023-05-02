@@ -2,6 +2,15 @@
 name = "helius-sdk"
 version = "0.1.0"
 edition = "2021"
+authors = ["bgreni"]
+description = "Rust implementation of the Helius SDK"
+readme = "README.md"
+repository = "https://github.com/bgreni/helius-rust-sdk"
+homepage = "https://github.com/bgreni/helius-rust-sdk"
+license-file = "LICENSE"
+keywords = ["solana", "helius"]
+categories = ["cryptography::cryptocurrencies"]
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

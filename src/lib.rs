@@ -42,7 +42,6 @@ mod tests {
                 token_mint: std::env::var("TMINT").unwrap()
             };
         }
-
     }
 
     #[test]
@@ -77,9 +76,9 @@ mod tests {
             &EditWebhookRequest {
                 webhook_id: hooky.webhook_id.clone(),
                 data: hooky.webhook_data
-            });
-        assert_eq!(edited_hook.unwrap().webhook_data.transaction_types, vec![TransactionType::Burn, TransactionType::Fuse]);
-        assert!(config.client.delete_webhook(hook.webhook_id.as_str()).is_ok());
+            }).unwrap();
+        assert_eq!(edited_hook.webhook_data.transaction_types, vec![TransactionType::Burn, TransactionType::Fuse]);
+        assert!(config.client.delete_webhook(edited_hook.webhook_id.as_str()).is_ok());
     }
 
     #[test]
@@ -110,7 +109,7 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
+    // #[ignore]
     fn test_get_metadata() {
         let config = Config::new();
         config.client.get_token_metadata(&TokenMetadataRequest{

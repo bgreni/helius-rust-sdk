@@ -3,19 +3,17 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value};
 use crate::Helius;
 
-// TODO: implement proper deserialization
 pub trait TokenMetadataApi {
-    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<Map<String, Value>>>;
+    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>>;
 }
 
 impl TokenMetadataApi for Helius {
-    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<Map<String, Value>>> {
+    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>> {
         return self.handler.post(self.get_url_v0("token-metadata"), request);
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenMetadataRequest {
         pub mint_accounts: Vec<String>,
         pub include_off_chain: bool,
@@ -24,11 +22,27 @@ serializable! {
 }
 
 // What the fuck Mert https://docs.helius.xyz/solana-apis/token-metadata-api
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenMetadataResult {
         pub account: String,
-        pub on_chain_account_info: on_chain_account_info::OnChainAccountInfo
+        pub on_chain_account_info: Option<on_chain_account_info::OnChainAccountInfo>,
+        pub on_chain_metadata: Option<on_chain_metadata::OnChainMetadata>,
+        pub off_chain_metadata: Option<off_chain_metadata::OffChainMetadata>,
+        pub legacy_metadata: Option<LegacyMetadata>
+    }
+}
+
+serializable_camel_case! {
+    pub struct LegacyMetadata {
+        pub chain_id: Number,
+        pub address: String,
+        pub symbol: String,
+        pub name: String,
+        pub decimals: Number,
+        #[serde(rename="logoURI")]
+        pub logo_uri: String,
+        pub tags: Vec<String>,
+        pub extensions: Map<String, Value>
     }
 }
 
@@ -37,15 +51,13 @@ serializable! {
 pub mod on_chain_account_info {
     pub use super::*;
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct OnChainAccountInfo {
             pub account_info: AccountInfo,
             pub error: String
         }
     }
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct AccountInfo {
             pub key: String,
             pub is_signer: bool,
@@ -58,8 +70,7 @@ pub mod on_chain_account_info {
         }
     }
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct Data {
             pub parsed: Parsed,
             pub program: String,
@@ -67,16 +78,14 @@ pub mod on_chain_account_info {
         }
     }
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct Parsed {
             pub info: Info,
             #[serde(rename="type")]
             pub parsed_type: String
         }
     }
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct Info {
             pub decimals: Number,
             pub freeze_authority: String,
@@ -90,15 +99,14 @@ pub mod on_chain_account_info {
 pub mod on_chain_metadata {
     use super::*;
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct OnChainMetadata {
-            pub metdata: Metadata
+            pub metadata: Metadata,
+            pub error: String
         }
     }
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct Metadata {
             pub key: String,
             pub mint: String,
@@ -109,13 +117,22 @@ pub mod on_chain_metadata {
             pub is_mutable: bool,
             pub edition_nonce: Number,
             pub collection: Collection,
-            pub collection_details: CollectionDetails
+            pub collection_details: Option<CollectionDetails>,
+            pub uses: Uses
+        }
+    }
+
+    serializable_camel_case! {
+        pub struct Uses {
+            pub use_method: String,
+            pub remaining: Number,
+            pub total: Number
         }
     }
 
     serializable! {
         pub struct CollectionDetails {
-
+            pub size: Number
         }
     }
 
@@ -126,8 +143,7 @@ pub mod on_chain_metadata {
         }
     }
 
-    serializable! {
-        #[serde(rename_all="camelCase")]
+    serializable_camel_case! {
         pub struct Data {
             pub name: String,
             pub symbol: String,
@@ -140,8 +156,60 @@ pub mod on_chain_metadata {
     serializable! {
         pub struct Creator {
             pub address: String,
-            pub share: String,
+            pub share: Number,
             pub verified: bool
+        }
+    }
+}
+
+pub mod off_chain_metadata {
+    use super::*;
+    serializable! {
+        pub struct OffChainMetadata {
+            pub metadata: Metadata,
+            pub uri: String,
+            pub error: String
+        }
+    }
+
+    serializable_camel_case! {
+        pub struct Metadata {
+            pub name: String,
+            pub symbol: String,
+            pub attributes: Vec<Attribute>,
+            pub seller_fee_basis_points: Number,
+            pub image: String,
+            pub properties: Properties
+        }
+    }
+
+    serializable! {
+        pub struct Properties {
+            pub category: String,
+            pub files: Vec<Files>,
+            pub creators: Vec<Creator>
+        }
+    }
+
+    serializable! {
+        pub struct Creator {
+            pub address: String,
+            pub share: Number
+        }
+    }
+
+    serializable! {
+        pub struct Files {
+            pub uri: String,
+            #[serde(rename="type")]
+            pub file_type: String
+        }
+    }
+
+    serializable_camel_case! {
+        pub struct Attribute {
+            pub trait_type: String,
+            pub value: String
         }
     }
 }

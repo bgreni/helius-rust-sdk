@@ -14,8 +14,7 @@ impl BalancesApi for Helius {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct BalancesResponse {
         pub tokens: Vec<TokenData>,
         pub native_balance: Number
@@ -23,8 +22,7 @@ serializable! {
 }
 
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenData {
         pub mint: String,
         pub amount: Number,

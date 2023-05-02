@@ -7,20 +7,39 @@ pub(crate) use serde_enum_str::{Deserialize_enum_str, Serialize_enum_str};
 
 
 derive_alias! {
-    serializable => #[derive(Serialize, Deserialize, Clone, Debug)]
-    enum_serializable => #[derive(Deserialize_enum_str, Serialize_enum_str, Debug, PartialEq, Eq, Clone)]
+    serializable => #[derive(
+        Serialize,
+        Deserialize,
+        Clone,
+        Debug,
+        Eq,
+        PartialEq
+    )]
+    enum_serializable => #[derive(
+        Deserialize_enum_str,
+        Serialize_enum_str,
+        Debug,
+        PartialEq,
+        Eq,
+        Clone
+    )]
 }
 
 macro_rules! serializable_camel_case {
     ($i:item) => {
-        #[derive(Serialize, Deserialize, Clone, Debug)]
-        #[serde(rename_all="camelCase")]
-        $i
+        serializable! {
+            #[serde(rename_all="camelCase")]
+            $i
+        }
     }
 }
 
 #[allow(clippy::single_component_path_imports)]
-pub(crate) use {enum_serializable, serializable};
+pub(crate) use {
+    enum_serializable,
+    serializable,
+    serializable_camel_case
+};
 
 #[derive(Clone, Copy)]
 pub enum Cluster {
@@ -48,7 +67,9 @@ serializable! {
 enum_serializable! {
     #[serde(rename_all="camelCase")]
     pub enum AccountWebhookEncoding {
-        JsonParsed
+        JsonParsed,
+        #[serde(other)]
+        Other(String)
     }
 }
 
@@ -57,7 +78,9 @@ enum_serializable! {
     pub enum TxnStatus {
         All,
         Success,
-        Failed
+        Failed,
+        #[serde(other)]
+        Other(String)
     }
 }
 

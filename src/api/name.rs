@@ -13,8 +13,7 @@ impl NameApi for Helius {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct Names {
         pub domain_names: Vec<String>
     }

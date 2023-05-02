@@ -93,8 +93,7 @@ impl WebhookApi for Helius {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct Webhook {
         #[serde(rename="webhookID")]
         pub webhook_id: String,
@@ -104,8 +103,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct WebhookData {
         #[serde(rename="webhookURL")]
         pub webhook_url: String,
@@ -142,8 +140,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct CreateCollectionWebhookRequest {
         #[serde(flatten)]
         pub data: WebhookData,

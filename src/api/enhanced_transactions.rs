@@ -19,8 +19,7 @@ impl EnhancedTransactionsApi for Helius {
     }
 }
 
-serializable! {
-    // #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct EnrichedTransaction {
         pub description: String,
         #[serde(rename="type")] // so we don't shadow a keyword
@@ -53,8 +52,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct CompressedNftEvent {
         #[serde(rename="type")]
         pub transaction_type: TransactionType,
@@ -69,8 +67,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct SwapEvent {
         pub native_input: NativeBalanceChange,
         pub native_output: NativeBalanceChange,
@@ -82,8 +79,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenSwap {
         pub native_input: Option<NativeTransfer>,
         pub native_output: Option<NativeTransfer>,
@@ -95,7 +91,7 @@ serializable! {
     }
 }
 
-serializable! {
+serializable_camel_case! {
     pub struct ProgramInfo {
         pub source: Source,
         pub account: String,
@@ -104,8 +100,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct NFTEvent {
         pub seller: String,
         pub buyer: String,
@@ -121,8 +116,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct Token {
         pub mint: String,
         pub token_standard: TokenStandard
@@ -142,8 +136,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct AccountData {
         pub account: String,
         pub native_balance_change: Number,
@@ -151,8 +144,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenBalanceChange {
         pub user_account: String,
         pub token_account: String,
@@ -161,16 +153,14 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct RawTokenAmount {
         pub token_amount: String,
         pub decimals: Number
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TokenTransfer {
         #[serde(flatten)]
         pub user_accounts: TransferUserAccounts,
@@ -182,16 +172,14 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct TransferUserAccounts {
         pub from_user_account: Option<String>,
         pub to_user_account: Option<String>,
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct NativeTransfer {
         #[serde(flatten)]
         pub user_accounts: TransferUserAccounts,
@@ -199,8 +187,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct Instruction {
         pub accounts: Vec<String>,
         pub data: String,
@@ -209,8 +196,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct InnerInstruction {
         pub accounts: Vec<String>,
         pub data: String,

@@ -19,8 +19,7 @@ serializable! {
     }
 }
 
-serializable! {
-    #[serde(rename_all="camelCase")]
+serializable_camel_case! {
     pub struct MintlistResponse {
         pub result: Vec<MintlistItem>,
         pub pagination_token: String

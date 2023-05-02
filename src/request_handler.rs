@@ -57,7 +57,7 @@ impl RequestHandler {
         U: IntoUrl
     {
         return self.http_client
-            .get(url)
+            .delete(url)
             .send()?
             .error_for_status();
     }
