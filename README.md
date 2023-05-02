@@ -4,6 +4,9 @@ the [official Typescript SDK](https://github.com/helius-labs/helius-sdk)
 
 This README will largely present what functionality is available in this implementation
 
+## Disclaimer
+I'm not ready to commit to no breaking changes yet so will be making `0.x.x` releases for now
+
 ## Getting Started
 ### Installation
 ```commandline
