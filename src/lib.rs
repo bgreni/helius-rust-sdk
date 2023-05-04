@@ -109,7 +109,7 @@ mod tests {
     }
 
     #[test]
-    // #[ignore]
+    #[ignore]
     fn test_get_metadata() {
         let config = Config::new();
         config.client.get_token_metadata(&TokenMetadataRequest{

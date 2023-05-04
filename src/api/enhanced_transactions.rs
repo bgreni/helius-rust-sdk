@@ -3,15 +3,8 @@ use crate::{Helius, ProgramName, Source, TokenStandard, TransactionContext, Tran
 use serde::{Deserialize, Serialize};
 use serde_json::Number;
 
-pub trait EnhancedTransactionsApi {
-    fn parse_transaction(
-        &self,
-        transactions: &ParseTransactionsRequest
-    ) -> reqwest::Result<Vec<EnrichedTransaction>>;
-}
-
-impl EnhancedTransactionsApi for Helius {
-    fn parse_transaction(
+impl Helius {
+    pub fn parse_transaction(
         &self,
         transactions: &ParseTransactionsRequest
     ) -> reqwest::Result<Vec<EnrichedTransaction>> {

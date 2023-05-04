@@ -3,12 +3,9 @@ use crate::common::*;
 use crate::Helius;
 use serde_json::Number;
 
-pub trait BalancesApi {
-    fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse>;
-}
 
-impl BalancesApi for Helius {
-    fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse> {
+impl Helius {
+    pub fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse> {
         let method = format!("addresses/{address}/balances");
         return self.handler.get(self.get_url_v0(method.as_str()));
     }

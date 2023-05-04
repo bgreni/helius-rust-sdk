@@ -8,6 +8,7 @@ readme = "README.md"
 repository = "https://github.com/bgreni/helius-rust-sdk"
 homepage = "https://github.com/bgreni/helius-rust-sdk"
 license-file = "LICENSE"
+license = "MIT"
 keywords = ["solana", "helius"]
 categories = ["cryptography::cryptocurrencies"]
 

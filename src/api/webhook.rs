@@ -1,51 +1,39 @@
 use std::ops::Not;
 use serde::{Deserialize, Serialize};
 use reqwest::blocking::Response;
-use crate::{AccountWebhookEncoding, CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, NftApi, TransactionType, TxnStatus};
+use crate::{AccountWebhookEncoding, CollectionIdentifier, Helius, HeliusOptions, MintlistItem, MintlistRequest, TransactionType, TxnStatus};
 use crate::common::*;
 
 #[allow(dead_code)]
 const MAX_WEBHOOK_ADDRESSES: usize = 100_000;
 const WEBHOOK_BASE: &str = "webhooks";
 
-pub trait WebhookApi {
-    // standard methods
-    fn get_all_webhooks(&self) -> reqwest::Result<Vec<Webhook>>;
-    fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook>;
-    fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook>;
-    fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook>;
-    fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response>;
 
-    // convenience methods
-    fn append_addresses_to_webhook(&self, webhook_id: &str, new_addresses: Vec<String>) -> reqwest::Result<Webhook>;
-    fn create_collection_webhook(&self, request: &CreateCollectionWebhookRequest) -> reqwest::Result<Webhook>;
-}
-
-impl WebhookApi for Helius {
-    fn get_all_webhooks(&self) -> reqwest::Result<Vec<Webhook>> {
+impl Helius {
+    pub fn get_all_webhooks(&self) -> reqwest::Result<Vec<Webhook>> {
         return self.handler.get(self.get_url_v0(WEBHOOK_BASE));
     }
 
-    fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook> {
+    pub fn get_webhook_by_id(&self, webhook_id: &str) -> reqwest::Result<Webhook> {
         return self.handler.get(self.get_url_v0(format!("{WEBHOOK_BASE}/{webhook_id}").as_str()));
     }
 
-    fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
+    pub fn create_webhook(&self, request: &CreateWebhookRequest) -> reqwest::Result<Webhook> {
         return self.handler.post(self.get_url_v0(WEBHOOK_BASE), request);
     }
 
-    fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook> {
+    pub fn edit_webhook(&self, request: &EditWebhookRequest) -> reqwest::Result<Webhook> {
         return self.handler.put(
             self.get_url_v0(format!("{WEBHOOK_BASE}/{}", request.webhook_id).as_str()),
             &request.data
         );
     }
 
-    fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response> {
+    pub fn delete_webhook(&self, webhook_id: &str) -> reqwest::Result<Response> {
         return self.handler.delete(self.get_url_v0(format!("{WEBHOOK_BASE}/{}", webhook_id).as_str()));
     }
 
-    fn append_addresses_to_webhook(&self, webhook_id: &str, new_addresses: Vec<String>) -> reqwest::Result<Webhook> {
+    pub fn append_addresses_to_webhook(&self, webhook_id: &str, new_addresses: Vec<String>) -> reqwest::Result<Webhook> {
         let mut webhook = self.get_webhook_by_id(webhook_id)?;
         webhook.webhook_data.account_addresses.extend(new_addresses);
         let edit_request = EditWebhookRequest {
@@ -55,7 +43,7 @@ impl WebhookApi for Helius {
         return self.edit_webhook(&edit_request);
     }
 
-    fn create_collection_webhook(&self, request: &CreateCollectionWebhookRequest) -> reqwest::Result<Webhook> {
+    pub fn create_collection_webhook(&self, request: &CreateCollectionWebhookRequest) -> reqwest::Result<Webhook> {
         let mint_request = MintlistRequest {
             query: request.collection_query.clone(),
             options: Some(HeliusOptions{limit: Some(10000), pagination_token: None}),

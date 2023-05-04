@@ -3,12 +3,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value};
 use crate::Helius;
 
-pub trait TokenMetadataApi {
-    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>>;
-}
 
-impl TokenMetadataApi for Helius {
-    fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>> {
+impl Helius {
+    pub fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>> {
         return self.handler.post(self.get_url_v0("token-metadata"), request);
     }
 }
