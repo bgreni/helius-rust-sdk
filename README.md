@@ -8,14 +8,10 @@ This README will largely present what functionality is available in this impleme
 I'm not ready to commit to no breaking changes yet so will be making `0.x.x` releases for now
 
 ## Getting Started
-### Installation
+### Installation And Usage
 ```commandline
 cargo add helius-sdk
 ```
-
-Each API category is split into a separate trait implementation,
-so it is recommended to use a wildcard import to avoid having to explicitly
-mention each one
 ```rust
 use helius_sdk::*;
 
