@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 
 impl Helius {
+    #[deprecated]
     pub fn get_mintlist(&self, request: &MintlistRequest) -> reqwest::Result<MintlistResponse> {
         return self.handler.post(self.get_url_v1("mintlist"), request);
     }

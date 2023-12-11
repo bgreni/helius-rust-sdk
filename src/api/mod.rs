@@ -5,10 +5,12 @@ mod nft;
 mod rpc_client;
 mod token_metadata;
 mod webhook;
+mod das;
 
 pub use {
     balances::*, enhanced_transactions::*, name::*, nft::*, rpc_client::*, token_metadata::*,
     webhook::*,
+    das::*,
 };
 
 use crate::{common::Cluster, util::rpc_url_from_cluster};
@@ -18,6 +20,7 @@ use crate::request_handler::RequestHandler;
 const API_URL_V1: &str = "https://api.helius.xyz/v1";
 const API_URL_V0: &str = "https://api.helius.xyz/v0";
 const DEV_API_URL_V0: &str = "https://api-devnet.helius.xyz/v0";
+const DAS_URL: &str = "https://mainnet.helius-rpc.com";
 
 pub struct Helius {
     api_key: String,
@@ -48,6 +51,10 @@ impl Helius {
             Cluster::Devnet => DEV_API_URL_V0,
         };
         return self.make_url(url, method);
+    }
+
+    pub fn get_das_url(&self) -> String {
+        return self.make_url(DAS_URL, "");
     }
 
     fn make_url(&self, base: &str, method: &str) -> String {

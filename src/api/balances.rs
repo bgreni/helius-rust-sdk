@@ -5,6 +5,7 @@ use serde_json::Number;
 
 
 impl Helius {
+    #[deprecated]
     pub fn balances(&self, address: &str) -> reqwest::Result<BalancesResponse> {
         let method = format!("addresses/{address}/balances");
         return self.handler.get(self.get_url_v0(method.as_str()));

@@ -7,7 +7,6 @@ description = "Rust implementation of the Helius SDK"
 readme = "README.md"
 repository = "https://github.com/bgreni/helius-rust-sdk"
 homepage = "https://github.com/bgreni/helius-rust-sdk"
-license-file = "LICENSE"
 license = "MIT"
 keywords = ["solana", "helius"]
 categories = ["cryptography::cryptocurrencies"]
@@ -20,7 +19,7 @@ reqwest = {version = "0.11.16", features = ["blocking", "json"] }
 serde-enum-str = "0.3.2"
 serde_json = "1.0.96"
 serde = { version = "1.0.160", features = ["derive"] }
-solana-client = "1.15.2"
-solana-sdk = "1.15.2"
+solana-client = "1.14.18"
+solana-sdk = "1.14.18"
 derive-alias = "0.1.0"
 

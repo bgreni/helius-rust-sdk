@@ -6,7 +6,7 @@ use serde::Serialize;
 type Return<K> = reqwest::Result<K>;
 
 pub struct RequestHandler {
-    http_client: reqwest::blocking::Client,
+    pub http_client: reqwest::blocking::Client,
 }
 
 impl RequestHandler {
@@ -39,6 +39,18 @@ impl RequestHandler {
             .error_for_status()?
             .json();
     }
+
+    // pub fn rpcPost<B, R, U>(&self, url: U, body: &r) -> Return<R> where
+    //     B: Serialize + ?Sized,
+    //     U: IntoUrl,
+    //     R: DeserializeOwned
+    // {
+    //     return self.http_client
+    //         .post(url)
+    //         .json(&body)
+    //         .send()?
+    //         .
+    // }
 
     pub fn put<R, U, T>(&self, url: U, body: &R) -> Return<T> where
         R: Serialize + ?Sized,

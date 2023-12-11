@@ -5,6 +5,7 @@ use crate::Helius;
 
 
 impl Helius {
+    #[deprecated]
     pub fn get_token_metadata(&self, request: &TokenMetadataRequest) -> reqwest::Result<Vec<TokenMetadataResult>> {
         return self.handler.post(self.get_url_v0("token-metadata"), request);
     }

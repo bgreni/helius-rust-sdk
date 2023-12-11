@@ -12,7 +12,6 @@ derive_alias! {
         Deserialize,
         Clone,
         Debug,
-        Eq,
         PartialEq
     )]
     enum_serializable => #[derive(
@@ -45,6 +44,100 @@ pub(crate) use {
 pub enum Cluster {
     MainnetBeta,
     Devnet,
+}
+
+enum_serializable! {
+    pub enum AssetSortBy {
+        #[serde(rename = "created")]
+        Created,
+        #[serde(rename = "updated")]
+        Updated,
+        #[serde(rename = "recent_action")]
+        RecentAction
+    }
+}
+
+enum_serializable! {
+    pub enum AssetSortDirection {
+        #[serde(rename = "asc")]
+        Asc,
+        #[serde(rename = "desc")]
+        Desc
+    }
+}
+
+enum_serializable! {
+    pub enum OwnershipModel {
+        #[serde(rename = "single")]
+        Single,
+        #[serde(rename = "token")]
+        Token
+    }
+}
+
+enum_serializable! {
+    pub enum Scope {
+        #[serde(rename = "full")]
+        Full,
+        #[serde(rename = "royalty")]
+        Royalty,
+        #[serde(rename = "metadata")]
+        Metadata,
+        #[serde(rename = "extension")]
+        Extension
+    }
+}
+
+enum_serializable! {
+    pub enum UseMethods {
+        Burn,
+        Single,
+        Multiple
+    }
+}
+
+enum_serializable! {
+    pub enum Context {
+        #[serde(rename = "wallet-default")]
+        WalletDefault,
+        #[serde(rename = "web-desktop")]
+        WebDesktop,
+        #[serde(rename = "web-mobile")]
+        WebMobile,
+        #[serde(rename = "app-mobile")]
+        AppMobile,
+        #[serde(rename = "app-desktop")]
+        AppDesktop,
+        #[serde(rename = "app")]
+        App,
+        #[serde(rename = "vr")]
+        Vr
+    }
+}
+
+enum_serializable! {
+    pub enum Interface {
+        V1_NFT,
+        Custom,
+        V1_PRINT,
+        Legacy_NFT,
+        V2_NFT,
+        FungibleAsset,
+        Identity,
+        Executable,
+        ProgrammableNFT
+    }
+}
+
+enum_serializable! {
+    pub enum RoyaltyModel {
+        #[serde(rename = "creators")]
+        Creators,
+        #[serde(rename = "fanout")]
+        Fanout,
+        #[serde(rename = "single")]
+        Single
+    }
 }
 
 serializable! {
