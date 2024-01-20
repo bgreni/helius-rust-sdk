@@ -1,7 +1,24 @@
 use crate::common::*;
 use crate::{Helius, ProgramName, Source, TokenStandard, TransactionContext, TransactionType};
-use serde::{Deserialize, Serialize};
-use serde_json::Number;
+use serde::{Deserialize, Deserializer, Serialize};
+use serde::de::Error as SerdeError;
+use serde_json::{Number, Value};
+
+fn deserialize_str_to_number<'de, D>(deserializer: D) -> Result<Number, D::Error>
+    where
+        D: Deserializer<'de>,
+{
+    let v: Value = Deserialize::deserialize(deserializer)?;
+    match v {
+        Value::String(s) => {
+            s.parse::<serde_json::Number>()
+                .map_err(SerdeError::custom)
+        }
+        Value::Number(n) => Ok(n),
+        _ => Err(SerdeError::custom("Expected a string or number")),
+    }
+}
+
 
 impl Helius {
     pub fn parse_transaction(
@@ -62,8 +79,8 @@ serializable_camel_case! {
 
 serializable_camel_case! {
     pub struct SwapEvent {
-        pub native_input: NativeBalanceChange,
-        pub native_output: NativeBalanceChange,
+        pub native_input: Option<NativeBalanceChange>,
+        pub native_output: Option<NativeBalanceChange>,
         pub token_inputs: Vec<TokenBalanceChange>,
         pub token_outputs: Vec<TokenBalanceChange>,
         pub token_fees: Vec<TokenBalanceChange>,
@@ -125,6 +142,7 @@ serializable! {
 serializable! {
     pub struct NativeBalanceChange {
         pub account: String,
+        #[serde(deserialize_with = "deserialize_str_to_number")]
         pub amount: Number
     }
 }

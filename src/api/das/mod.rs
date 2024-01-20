@@ -1,11 +1,9 @@
 mod types;
 
 use std::collections::HashMap;
-use std::ops::Deref;
 pub use {types::*};
 use crate::common::*;
 use serde::{Deserialize, Serialize};
-use reqwest::Request;
 use crate::Helius;
 
 fn parse<T>(res: reqwest::Result<Res<T>>) -> reqwest::Result<T> where T: Clone {
