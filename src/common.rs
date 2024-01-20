@@ -117,10 +117,14 @@ enum_serializable! {
 
 enum_serializable! {
     pub enum Interface {
+        #[allow(non_camel_case_types)]
         V1_NFT,
         Custom,
+        #[allow(non_camel_case_types)]
         V1_PRINT,
+        #[allow(non_camel_case_types)]
         Legacy_NFT,
+        #[allow(non_camel_case_types)]
         V2_NFT,
         FungibleAsset,
         Identity,

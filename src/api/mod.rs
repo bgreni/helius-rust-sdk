@@ -17,8 +17,8 @@ use crate::{common::Cluster, util::rpc_url_from_cluster};
 use solana_client::rpc_client::RpcClient;
 use crate::request_handler::RequestHandler;
 
-const API_URL_V1: &str = "https://api.helius.xyz/v1";
-const API_URL_V0: &str = "https://api.helius.xyz/v0";
+const API_URL_V1: &str = "https://api-mainnet.helius-rpc.com/v1";
+const API_URL_V0: &str = "https://api-mainnet.helius-rpc.com/v0";
 const DEV_API_URL_V0: &str = "https://api-devnet.helius.xyz/v0";
 const DAS_URL: &str = "https://mainnet.helius-rpc.com";
 
