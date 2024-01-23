@@ -45,6 +45,15 @@ mod tests {
     }
 
     #[test]
+    fn test_cluster_url() {
+        let url = rpc_url_from_cluster(String::from("key"), Cluster::MainnetBeta);
+        assert_eq!(url, "https://mainnet.helius-rpc.com/?api-key=key");
+
+        let url = rpc_url_from_cluster(String::from("key"), Cluster::Devnet);
+        assert_eq!(url, "https://devnet.helius-rpc.com/?api-key=key");
+    }
+
+    #[test]
     #[ignore]
     fn test_balances() {
         let config = Config::new();
